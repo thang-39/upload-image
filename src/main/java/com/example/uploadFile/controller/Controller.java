@@ -29,4 +29,20 @@ public class Controller {
                 .contentType(MediaType.valueOf("image/png"))
                 .body(imageData);
     }
+
+    @PostMapping("/fileSystem")
+    public ResponseEntity<String> uploadImageToFileSystem(@RequestParam("image")MultipartFile file) throws IOException {
+        String uploadImage = storageService.uploadImageToFileSystem(file);
+        return new ResponseEntity<>(uploadImage, HttpStatus.OK);
+    }
+
+    @GetMapping("/fileSystem/{fileName}")
+    public ResponseEntity<?> downloadImageFromFileSystem(@PathVariable String fileName) throws IOException {
+        byte[] imageData = storageService.downloadImageFromFileSystem(fileName);
+        return ResponseEntity.status(HttpStatus.OK)
+                .contentType(MediaType.valueOf("image/png"))
+                .body(imageData);
+    }
+
+
 }
